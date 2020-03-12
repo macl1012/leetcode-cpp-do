@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=141 lang=cpp
+ * @lc app=leetcode.cn id=142 lang=cpp
  *
- * [141] 环形链表
+ * [142] 环形链表 II
  */
 
 // @lc code=start
@@ -15,17 +15,27 @@
  */
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
+    ListNode *detectCycle(ListNode *head) {
         ListNode *slow, *fast;
         slow = fast = head;
 
+        bool bHasCycle = false;
         while(fast != NULL && fast->next != NULL) {
             fast = fast->next->next;
             slow = slow->next;
-            if(fast == slow)
-                return true;
+            if(fast == slow) {
+                bHasCycle = true;
+                break;
+            }   
         }
-        return false;
+        if(!bHasCycle) return NULL;
+
+        slow = head;
+        while(slow != fast) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        return slow;
     }
 };
 // @lc code=end
